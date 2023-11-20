@@ -9,6 +9,7 @@ pyhton3 ./manage.py migrate
 #### To run webserver.
 ```
 python ./manage.py runserver
+npm run dev
 ```
 
 ### Reference links.
