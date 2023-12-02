@@ -26,8 +26,7 @@ npm run dev
 [Django-rest-framework/api-guide/fields](https://www.django-rest-framework.org/api-guide/fields/#charfield)\
 [Tutorial](https://www.youtube.com/playlist?list=PLzMcBGfZo4-kCLWnGmK0jUBmGLaJxvi4j)
 
-###
-Create credentials.py file under spotify folder
+### Create credentials.py file under spotify folder
 ```
 CLIENT_ID = "<hash>"
 CLIENT_SECRET = "<hash>"
