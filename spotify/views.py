@@ -53,9 +53,6 @@ class IsAuthenticated(APIView):
 
 class CurrentSong(APIView):
 	def get(self, request, format=None):
-		if is_spotify_authenticated(self.request.session.session_key) == False:
-			return Response({'error': 'spotify is not quthenticated...'}, status=status.HTTP_404_NOT_FOUND)
-		
 		room_code = self.request.session.get('room_code')
 		room = Room.objects.filter(code=room_code)
 		if room.exists():
