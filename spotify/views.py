@@ -114,7 +114,7 @@ class PauseSong(APIView):
 		room = Room.objects.filter(code=room_code)[0]
 		if self.request.session.session_key == room.host or room.guest_can_pause:
 			pause_song(room.host)
-			return Response({}, status=status.HTTP.HTTP_204_NO_CONTENT)
+			return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 		return Response({}, status=status.HTTP_403_FORBIDDEN)
 
@@ -163,6 +163,26 @@ class SearchSong(APIView):
 		items = response.get('tracks').get('items')
 		songs = []
 		for item in items:
-			custom_item = wrap_item_song_to_custom_song(item)
+			custom_item = wrap_TrackObject_to_custom_song(item)
 			songs.append(custom_item)
+		return Response(songs, status=status.HTTP_200_OK)
+
+class UserQueue(APIView):
+	def get(self, request, format=None):
+		room_code = self.request.session.get('room_code')
+		room = Room.objects.filter(code=room_code)
+		if room.exists():
+			room = room[0]
+		else:
+			return Response({'Bad request': f'room_code: {room_code} was not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+		response = user_queue(room.host)
+		queue = response.get('queue')
+		songs = []
+		for item in queue:
+			custom_item = wrap_TrackObject_to_custom_song(item)
+			songs.append(custom_item)
+
+		print(len(songs))
+
 		return Response(songs, status=status.HTTP_200_OK)

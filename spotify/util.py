@@ -67,12 +67,14 @@ def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False, p
 	else:
 		response = get(BASE_URL + endpoint, params, headers=header)
 
+	print(response)
+
 	try:
 		return response.json()
 	except:
 		return {"Error": "Issue with request"}
 
-def wrap_item_song_to_custom_song(item):
+def wrap_TrackObject_to_custom_song(item):
 	artist_string = ""
 
 	for i, artist in enumerate(item.get('artists')):
@@ -100,8 +102,10 @@ def search_song(session_id, song_name):
 		"type": ["track"],
 		"limit": 10
 	}
-	print("util.py/search_song(...): ", params)
 	return execute_spotify_api_request(session_id, "search", params=params)
+
+def user_queue(session_id):
+	return execute_spotify_api_request(session_id, "me/player/queue")
 
 def play_song(session_id):
 	return execute_spotify_api_request(session_id, "me/player/play", put_=True)
