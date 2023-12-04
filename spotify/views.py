@@ -61,7 +61,7 @@ class CurrentSong(APIView):
 			return Response({}, status=status.HTTP_404_NOT_FOUND)
 
 		host = room.host
-		endpoint = "player/currently-playing"
+		endpoint = "me/player/currently-playing"
 		response = execute_spotify_api_request(host, endpoint)
 
 		if 'error' in response or 'item' not in response:
@@ -144,3 +144,25 @@ class SkipSong(APIView):
 			vote.save()
 		
 		return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+class SearchSong(APIView):
+	def get(self, request, format=None):
+		room_code = self.request.session.get('room_code')
+		room = Room.objects.filter(code=room_code)
+		song_name = request.GET.get('song_name')
+		song_name = "blinding lights"
+		if song_name == None:
+			return Response({'Bad request': '"song_name" parameter not found in request'}, status=status.HTTP_400_BAD_REQUEST)
+
+		if room.exists():
+			room = room[0]
+		else:
+			return Response({'Bad request': f"room_code: {room_code} was not found."}, status=status.HTTP_404_NOT_FOUND)
+
+		response = search_song(room.host, song_name)
+		items = response.get('tracks').get('items')
+		songs = []
+		for item in items:
+			custom_item = wrap_item_song_to_custom_song(item)
+			songs.append(custom_item)
+		return Response(songs, status=status.HTTP_200_OK)

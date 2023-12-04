@@ -4,7 +4,7 @@ from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET
 from requests import post, get, put
 
-BASE_URL = "https://api.spotify.com/v1/me/"
+BASE_URL = "https://api.spotify.com/v1/"
 
 def get_user_tokens(session_id):
 	user_tokens = SpotifyToken.objects.filter(user=session_id)
@@ -53,27 +53,61 @@ def refresh_spotify_token(session_id):
 
 	update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token)
 
-def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+def get_auth_header(token):
+	return {"Content-Type": "application/json", "Authorization": "Bearer " + token}
+
+def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False, params={}):
 	tokens = get_user_tokens(session_id)
-	header = {"Content-Type": "application/json", "Authorization": "Bearer " + tokens.access_token}
+	header = get_auth_header(tokens.access_token)
 
 	if post_:
 		post(BASE_URL + endpoint, headers=header)
 	elif put_:
 		put(BASE_URL + endpoint, headers=header)
 	else:
-		response = get(BASE_URL + endpoint, {}, headers=header)
+		response = get(BASE_URL + endpoint, params, headers=header)
 
 	try:
 		return response.json()
 	except:
 		return {"Error": "Issue with request"}
 
+def wrap_item_song_to_custom_song(item):
+	artist_string = ""
+
+	for i, artist in enumerate(item.get('artists')):
+		if i > 0:
+			artist_string += ", "
+		name = artist.get('name')
+		artist_string += name
+
+	duration_ms = item.get('duration_ms')
+	album_cover = item.get('album').get('images')[2].get('url') # small picture
+	song_id = item.get('id')
+
+	song = {
+		'title': item.get('name'),
+		'artist': artist_string,
+		'image_url': album_cover,
+		'id': song_id,
+		'duration_ms': duration_ms
+	}
+	return song
+
+def search_song(session_id, song_name):
+	params = {
+		"q": song_name,
+		"type": ["track"],
+		"limit": 10
+	}
+	print("util.py/search_song(...): ", params)
+	return execute_spotify_api_request(session_id, "search", params=params)
+
 def play_song(session_id):
-	return execute_spotify_api_request(session_id, "player/play", put_=True)
+	return execute_spotify_api_request(session_id, "me/player/play", put_=True)
 
 def pause_song(session_id):
-	return execute_spotify_api_request(session_id, "player/pause", put_=True)
+	return execute_spotify_api_request(session_id, "me/player/pause", put_=True)
 
 def skip_song(session_id):
-	return execute_spotify_api_request(session_id, "player/next", post_=True)
+	return execute_spotify_api_request(session_id, "me/player/next", post_=True)
