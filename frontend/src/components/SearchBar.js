@@ -23,7 +23,7 @@ export default class SearchBar extends Component {
         fetch("/spotify/search-song" + "?song_name=" + this.state.searchField)
             .then((response) => {
                 if (!response.ok) {
-                    return {};
+                    return null;
                 } else {
                     return response.json();
                 }
@@ -42,7 +42,7 @@ export default class SearchBar extends Component {
 
   renderSearchBar() {
     return (
-      <Grid container justifyContent="center" style={{ minHeight: '30vh', padding: '0, 20px' }}>
+      <Grid container justifyContent="center">
         {/* Search Bar */}
         <Grid item align="center">
           <Input

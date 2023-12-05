@@ -2,6 +2,7 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	overflow-y: scroll;
 }
 
 #main {
@@ -17,9 +18,17 @@ html, body {
 	height: 100%;
 }
 
-.center {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+.BigSongCard {
+	width: 70%;
+}
+
+.SmallSongCard {
+	margin: 10px;
+	height: 90px;
+}
+
+.ExtraSmallSongCard {
+	height: 79.83px;
+	margin: 5px;
+	width: 70%;
 }

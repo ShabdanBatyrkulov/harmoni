@@ -63,7 +63,7 @@ export default class MusicPlayer extends Component {
   renderSongCard() {
     const songProgress = (this.props.time / this.props.duration) * 100;
     return (
-      <Card>
+      <Card className="BigSongCard">
         <Grid container alignItems="center">
           <Grid item align="center" xs={4}>
             <img src={this.props.image_url} height="100%" width="100%" />
@@ -90,10 +90,52 @@ export default class MusicPlayer extends Component {
       </Card>
     );
   }
+  renderSmallSongCard() {
+    const songProgress = (this.props.time / this.props.duration) * 100;
+  
+    return (
+      <Card className="SmallSongCard">
+        <Grid container alignItems="center" >
+          {/* Column 1: Song Image */}
+          <Grid item align="center" xs={1} >
+            <img src={this.props.image_url} height="100%" width="100%" alt="Album Cover" />
+          </Grid>
+          {/* Column 2: Title and Artist Name */}
+          <Grid item align="center" xs={9}>
+            <Typography component="h5" variant="h5" noWrap>
+              {this.props.title}
+            </Typography> 
+            <Typography color="textSecondary" variant="subtitle1" noWrap>
+              {this.props.artist}
+            </Typography>
+          </Grid>
+          {/* Column 3: Player Controls */}
+          <Grid item align="center" xs={2}>
+            <div>
+              <IconButton onClick={() => this.props.is_playing ? this.pauseSong() : this.playSong()}>
+                {this.props.is_playing ? <PauseIcon /> : <PlayArrowIcon />}
+              </IconButton>
+              <IconButton onClick={() => this.skipSong()}>
+                {this.props.votes} / {this.props.votes_required}
+                <SkipNextIcon />
+              </IconButton>
+            </div>
+          </Grid>
+        </Grid>
+        <LinearProgress variant="determinate" value={songProgress} style={{ height: '3px' }} />
+      </Card>
+    );
+  }
+  
+  
 
   render() {
-    return (
-      this.props.title !== undefined ? this.renderSongCard() : this.renderNoSongCard()
-    );
+    if (this.props.smallCard) {
+      return this.renderSmallSongCard();
+    } else {
+      return (
+        this.props.title !== undefined ? this.renderSongCard() : this.renderNoSongCard()
+      );
+    }
   }
 }

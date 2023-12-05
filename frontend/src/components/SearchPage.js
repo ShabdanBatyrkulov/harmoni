@@ -1,11 +1,14 @@
+import { TimerSharp } from "@material-ui/icons";
 import React, { Component } from "react";
 import SearchBar from "./SearchBar"
+import makeSmallCard from "./SongCard"
 
 export default class SearchPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			searchResults: null,
+			hasSearchResults: false,
 		}
 		this.getSearchResults = this.getSearchResults.bind(this);
 		this.renderResults = this.renderResults.bind(this);
@@ -13,15 +16,19 @@ export default class SearchPage extends Component {
 
 	getSearchResults(data) {
 		this.setState({
+			hasSearchResults: data != null,
 			searchResults: data,
 		})
+		this.props.pushSearchResults(data);
 	}
 
 	renderResults() {
 		const songs = [];
-		this.state.searchResults.forEach((item) => songs.push(<h5>{item.title}</h5>))
+		this.state.searchResults.forEach((item) => songs.push(makeSmallCard(item)))
 		return (
-			songs
+			<div style={{'height': '450px', 'overflow-y': 'scroll'}}>
+				{songs}
+			</div>
 		);
 	}
 
@@ -29,7 +36,7 @@ export default class SearchPage extends Component {
 		return (
 			<div>
 				{<SearchBar pushSearchResults = {this.getSearchResults}/>}
-				{this.state.searchResults != null ? this.renderResults() : null}
+				{this.state.hasSearchResults ? this.renderResults() : null}
 			</div>
 		);
 	}

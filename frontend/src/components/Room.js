@@ -12,6 +12,7 @@ export default class Room extends Component {
       guestCanPause: false,
       isHost: false,
       showSettings: false,
+      hasSearchResults: false,
       spotifyAuthenticated: false,
       song: {},
     };
@@ -23,6 +24,7 @@ export default class Room extends Component {
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.authenticateSpotify = this.authenticateSpotify.bind(this);
     this.getCurrentSong = this.getCurrentSong.bind(this);
+    this.getSearchResults = this.getSearchResults.bind(this);
     this.getRoomDetails();
   }
 
@@ -98,6 +100,7 @@ export default class Room extends Component {
   updateShowSettings(value) {
     this.setState({
       showSettings: value,
+      hasSearchResults: false
     });
   }
 
@@ -140,6 +143,12 @@ export default class Room extends Component {
     );
   }
 
+  getSearchResults(data) {
+		this.setState({
+			hasSearchResults: data != null
+		})
+	}
+
   render() {
     if (this.state.showSettings) {
       return this.renderSettings();
@@ -147,14 +156,21 @@ export default class Room extends Component {
     return (
       <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={12} align="center">
-          <SearchPage />
+          <SearchPage pushSearchResults={this.getSearchResults}/>
         </Grid>
         <Grid item xs={12} align="center">
           <Typography variant="h4" component="h4">
             Code: {this.roomCode}
           </Typography>
         </Grid>
-        <MusicPlayer {...this.state.song} />
+        { (!this.state.hasSearchResults) 
+          ? 
+            <Grid item xs={12} align="center">
+              <MusicPlayer {...this.state.song} smallCard={false} />
+            </Grid>
+          :
+            null
+        }
         {this.state.isHost ? this.renderSettingsButton() : null}
         <Grid item xs={12} align="center">
           <Button
@@ -165,6 +181,14 @@ export default class Room extends Component {
             Leave Room
           </Button>
         </Grid>
+        { (this.state.hasSearchResults) 
+          ? 
+            <Grid item xs={12} align="center">
+              <MusicPlayer {...this.state.song} smallCard={true} />
+            </Grid>
+          :
+            null
+        }
       </Grid>
     );
   }
