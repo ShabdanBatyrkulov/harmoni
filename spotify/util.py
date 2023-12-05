@@ -61,7 +61,7 @@ def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False, p
 	header = get_auth_header(tokens.access_token)
 
 	if post_:
-		post(BASE_URL + endpoint, headers=header)
+		post(BASE_URL + endpoint, headers=header, data=params)
 	elif put_:
 		put(BASE_URL + endpoint, headers=header)
 	else:
@@ -103,6 +103,9 @@ def search_song(session_id, song_name):
 		"limit": 10
 	}
 	return execute_spotify_api_request(session_id, "search", params=params)
+
+def add_user_queue(session_id, uri):
+	return execute_spotify_api_request(session_id, "me/player/queue", post_=True, params={"uri": uri})
 
 def user_queue(session_id):
 	return execute_spotify_api_request(session_id, "me/player/queue")

@@ -149,7 +149,6 @@ class SearchSong(APIView):
 		room_code = self.request.session.get('room_code')
 		room = Room.objects.filter(code=room_code)
 		song_name = request.GET.get('song_name')
-		song_name = "blinding lights"
 		if song_name == None:
 			return Response({'Bad request': '"song_name" parameter not found in request'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -182,6 +181,20 @@ class UserQueue(APIView):
 			custom_item = wrap_TrackObject_to_custom_song(item)
 			songs.append(custom_item)
 
-		print(len(songs))
-
 		return Response(songs, status=status.HTTP_200_OK)
+
+class AddUserQueue(APIView):
+	def post(self, response, format=None):
+		room_code = self.request.session.get('room_code')
+		room = Room.objects.filter(code=room_code)
+		if room.exists():
+			room = room[0]
+		else:
+			return Response({'Bad request': f'room_code: {room_code} was not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+		if response.data.get("uri") == None:
+			return Response({'Bad request': f'uri field was not found in the post method request.'}, status=status.HTTP_404_NOT_FOUND)
+
+		add_user_queue(room.host, response.data.get("uri"))
+
+		return Response({}, status=status.HTTP_204_NO_CONTENT)

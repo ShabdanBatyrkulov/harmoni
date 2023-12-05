@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import MusicPlayer from "./MusicPlayer";
+import SearchPage from "./SearchPage"
 
 export default class Room extends Component {
   constructor(props) {
@@ -80,7 +81,6 @@ export default class Room extends Component {
       })
       .then((data) => {
         this.setState({ song: data });
-        console.log(data);
       });
   }
 
@@ -146,6 +146,9 @@ export default class Room extends Component {
     }
     return (
       <Grid container justifyContent="center" spacing={2}>
+        <Grid item xs={12} align="center">
+          <SearchPage />
+        </Grid>
         <Grid item xs={12} align="center">
           <Typography variant="h4" component="h4">
             Code: {this.roomCode}

@@ -1,88 +1,35 @@
 import React, { Component } from "react";
+import SearchBar from "./SearchBar"
 
 export default class SearchPage extends Component {
 	constructor(props) {
 		super(props);
-	 	this.state = {
-		    searchSong: "",
-		    searchResults: null,
-	    };
-	    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);  
-	    this.searchSongButtonPressed = this.searchSongButtonPressed.bind(this);
-	}
-
-	searchSongButtonPressed() {
-		if (this.state.searchSong != "") {
-			const requestOptions = {
-				method: "GET",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					song_name: this.state.searchSong,
-				}),
-		    };
-		    fetch("/spotify/search-song", requestOptions)
-				.then((response) => response.json())
-				.then((data) => {
-					this.setState({
-						searchResults: data
-					})
-				})
+		this.state = {
+			searchResults: null,
 		}
+		this.getSearchResults = this.getSearchResults.bind(this);
+		this.renderResults = this.renderResults.bind(this);
 	}
 
-	handleTextFieldChange(e) {
+	getSearchResults(data) {
 		this.setState({
-	     	searchSong: e.target.value,
-	    });
+			searchResults: data,
+		})
 	}
 
-	renderSearchBar() {
-		return (
-			<Grid container spacing={1}>
-				<Grid item xs={12} align="center">
-		          <TextField fillWidth
-		            label="Song"
-		            placeholder="Enter a song name"
-		            value={this.state.searchSong}	
-		            variant="standard"
-		            onChange={this.handleTextFieldChange}
-		          />
-		        </Grid>
-		        <Grid item xs={12} align="center">
-		          <Button
-		            variant="contained"
-		            color="primary"
-		            onClick={this.searchSongButtonPressed}
-		          >
-		            Search
-		          </Button>
-		        </Grid>
-			</Grid>
-		);
-	}
 	renderResults() {
-		
-		results = []
-		for song in this.state.searchResults:
-			results.push(
-				<ListItem>
-
-				</ListItem>
-			)
+		const songs = [];
+		this.state.searchResults.forEach((item) => songs.push(<h5>{item.title}</h5>))
 		return (
-			<Grid item xs={12} md={6}>
-				<List>
-					{results}
-				</List>
-			</Grid>
+			songs
 		);
 	}
 
 	render() {
 		return (
 			<div>
-				{this.renderSearchBar()}
-				{this.state.searchResults != null ? renderResults() : null}
+				{<SearchBar pushSearchResults = {this.getSearchResults}/>}
+				{this.state.searchResults != null ? this.renderResults() : null}
 			</div>
 		);
 	}
