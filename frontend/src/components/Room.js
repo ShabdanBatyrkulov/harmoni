@@ -154,14 +154,32 @@ export default class Room extends Component {
       return this.renderSettings();
     }
     return (
+      <Grid container>
+      <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} style={{ margin: '10px' }}>
+        <Grid item xs={6} align="left">
+          <Typography variant="h6" component="h4">
+            Code: {this.roomCode}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} container direction="column" justifyContent="flex-start" alignItems="flex-end" spacing={2}>
+          <Grid item xs={12} align="right">
+            {this.state.isHost ? this.renderSettingsButton() : null}
+          </Grid>
+          <Grid item xs={12} align="right">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={this.leaveButtonPressed}
+            >
+              Leave Room
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
       <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={12} align="center">
           <SearchPage pushSearchResults={this.getSearchResults}/>
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Typography variant="h4" component="h4">
-            Code: {this.roomCode}
-          </Typography>
         </Grid>
         { (!this.state.hasSearchResults) 
           ? 
@@ -171,16 +189,6 @@ export default class Room extends Component {
           :
             null
         }
-        {this.state.isHost ? this.renderSettingsButton() : null}
-        <Grid item xs={12} align="center">
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={this.leaveButtonPressed}
-          >
-            Leave Room
-          </Button>
-        </Grid>
         { (this.state.hasSearchResults) 
           ? 
             <Grid item xs={12} align="center">
@@ -189,6 +197,7 @@ export default class Room extends Component {
           :
             null
         }
+      </Grid>
       </Grid>
     );
   }
