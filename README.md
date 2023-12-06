@@ -11,7 +11,7 @@ if it causes error, just force install it by:
 
 ### To run webserver.
 ```
-python ./manage.py runserver
+python ./manage.py runserver 0.0.0.0:8000
 npm run dev
 ```
 
@@ -19,9 +19,10 @@ npm run dev
 [Django-rest-framework/api-guide/fields](https://www.django-rest-framework.org/api-guide/fields/#charfield)\
 [Spotify API tutorial](https://www.youtube.com/watch?v=WAmEZBEeNmg)
 
-### "credentials.py" file under spotify folder is set up to app's client id.
+### Create "credentials.py" file under spotify folder is set up to app's client id and secret.
 ```
 CLIENT_ID = "97c1fd86051d4f8ca9ba31238423f6ab"
+CLIENT_SECRET = "be4e064a4f15424b8544243e6ec18888"
 REDIRECT_URI = "http://127.0.0.1:8000/spotify/redirect"
 ```
 

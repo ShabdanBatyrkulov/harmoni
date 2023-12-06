@@ -43,14 +43,14 @@ export default class MusicPlayer extends Component {
 
   renderNoSongCard() {
     return (
-      <Card align="center">
+      <Card className="BigSongCard">
         <Grid container alignItems="center" justifyContent="center" xs={8}>
-          <Grid item align="center" xs="auto">
+          <Grid item align="center" xs="12">
             <Typography component="h5" variant="h5">
               No song in progress!
             </Typography>
           </Grid>
-          <Grid item align="center" xs="auto">
+          <Grid item align="center" xs="12">
             <Typography component="body2" variant="body2">
               Play a song using host's Spotify account!
             </Typography>

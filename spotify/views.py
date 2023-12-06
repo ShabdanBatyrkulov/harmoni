@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .credentials import REDIRECT_URI, CLIENT_ID
+from .credentials import REDIRECT_URI, CLIENT_ID, CLIENT_SECRET
 from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
@@ -16,7 +16,8 @@ class AuthURL(APIView):
 			'scope': scopes,
 			'response_type': 'code',
 			'redirect_uri': REDIRECT_URI,
-			'client_id': CLIENT_ID
+			'client_id': CLIENT_ID,
+			'client_secret': CLIENT_SECRET
 		}).prepare().url
 
 		return Response({'url': url}, status=status.HTTP_200_OK)
@@ -157,6 +158,8 @@ class SearchSong(APIView):
 			return Response({'Bad request': f"room_code: {room_code} was not found."}, status=status.HTTP_404_NOT_FOUND)
 
 		response = search_song(room.host, song_name)
+		if 'error' in response or 'tracks' not in response:
+			return Response({'error': response.get('error')}, status=status.HTTP_204_NO_CONTENT)
 		items = response.get('tracks').get('items')
 		songs = []
 		for item in items:
@@ -174,6 +177,8 @@ class UserQueue(APIView):
 			return Response({'Bad request': f'room_code: {room_code} was not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 		response = user_queue(room.host)
+		if 'error' in response or 'queue' not in response:
+			return Response({'error': response.get('error')}, status=status.HTTP_204_NO_CONTENT)
 		queue = response.get('queue')
 		songs = []
 		for item in queue:

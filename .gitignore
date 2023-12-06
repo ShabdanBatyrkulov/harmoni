@@ -1,4 +1,5 @@
 frontend/node_modules/
 frontend/static/frontend/
 db.sqlite3
+spotify/credentials.py
 *pycache*
