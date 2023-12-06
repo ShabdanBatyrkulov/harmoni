@@ -43,9 +43,9 @@ export default class MusicPlayer extends Component {
 
   renderNoSongCard() {
     return (
-      <Card className="BigSongCard">
-        <Grid container alignItems="center" justifyContent="center" xs={8}>
-          <Grid item align="center" xs="12">
+      <Card align="center">
+        <Grid className="NoSongCard" container alignItems="center" justifyContent="center" xs={8}>
+          <Grid item align="center" xs="auto">
             <Typography component="h5" variant="h5">
               No song in progress!
             </Typography>
@@ -64,9 +64,9 @@ export default class MusicPlayer extends Component {
     const songProgress = (this.props.song.time / this.props.song.duration) * 100;
     return (
       <Card className="BigSongCard">
-        <Grid container alignItems="center">
-          <Grid item align="center" xs={2}>
-            <img src={this.props.song.image_url} height="100%" width="100%" />
+        <Grid className="SongCard" container alignItems="center">
+          <Grid item align="center" xs={4}>
+            <img src={this.props.image_url} height="100%" width="100%" />
           </Grid>
           <Grid item align="center" xs={7}>
             <Typography component="h5" variant="h5">
@@ -105,7 +105,7 @@ export default class MusicPlayer extends Component {
       <Card className="SmallSongCard" style={{
         position: "relative"
       }}>
-        <Grid container alignItems="center" >
+        <Grid className="LittleSongCard" container alignItems="center" >
           {/* Column 1: Song Image */}
           <Grid item align="left" xs={1} >
             <img src={this.props.song.image_url} height="80px" width="80px" alt="Album Cover" />

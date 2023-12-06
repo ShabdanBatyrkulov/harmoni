@@ -3,6 +3,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow-y: scroll;
+	background-color: #65ccb8;
 }
 
 #main {
@@ -21,13 +22,29 @@ html, body {
 .BigSongCard {
 	width: 70%;
 }
-
+.SongCard {
+	background-color: #fbe8a6;
+}
+.NoSongCard {
+	background-color: #fbe8a6;
+}
+.LittleSongCard {
+	background-color: #d2fdff;
+}
 .SmallSongCard {
 	margin: 10px;
 	height: 90px;
 }
 .SongHover:hover {
 	border-color: #f1ff5c;
-	color: gray;
+	color: #fffffF;
 	box-shadow: 0 0.5em 0.5em -0.4em;
+	transform: translateY(-0.2em);
 }
+.SongHover{
+	transition: all 0.3s;
+	background-color: #57ba98;
+}
+/* .HomePage{
+	background-color: #1f2833;
+} */
