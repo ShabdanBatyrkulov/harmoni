@@ -30,7 +30,7 @@ export default class SearchPage extends Component {
 		this.state.searchResults.forEach((item) => songs.push(makeSmallCard(item)))
 		return (
 			<Grid container align="center" spacing={1} style={{
-				'max-height': '400px',
+				'max-height': '600px',
 				'overflow-y': 'scroll',
 				'justify-content': 'space-evenly',
 				'align-content': "flex-start",
@@ -42,7 +42,7 @@ export default class SearchPage extends Component {
 
 	render() {
 		return (
-			<Grid container justifyContent="center" spacing={2}>
+			<Grid container justifyContent="center" spacing={6}>
 				{<SearchBar pushSearchResults = {this.getSearchResults}/>}
 				{this.state.hasSearchResults ? this.renderResults() : null}
 			</Grid>

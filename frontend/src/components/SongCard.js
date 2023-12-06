@@ -14,7 +14,7 @@ export default function makeSmallCard(song) {
         sec = "0" + sec.toString()
     }
     return (
-        <Grid item align="center" xs={8}>
+        <Grid item align="center" xs={11}>
             <Grid container alignItems="center" spacing={1} >
                 {/* Column 1: Song Image */}
                 <Grid item align="center" >

@@ -155,49 +155,46 @@ export default class Room extends Component {
     }
     return (
       <Grid container>
-      <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} style={{ margin: '10px' }}>
-        <Grid item xs={6} align="left">
-          <Typography variant="h6" component="h4">
-            Code: {this.roomCode}
-          </Typography>
-        </Grid>
-        <Grid item xs={6} container direction="column" justifyContent="flex-start" alignItems="flex-end" spacing={2}>
-          <Grid item xs={12} align="right">
-            {this.state.isHost ? this.renderSettingsButton() : null}
+        <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} style={{ margin: '10px' }}>
+          <Grid item xs={1} align="left">
+            <Typography variant="h6" component="h4">
+              Code: {this.roomCode}
+            </Typography>
           </Grid>
-          <Grid item xs={12} align="right">
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={this.leaveButtonPressed}
-            >
-              Leave Room
-            </Button>
+          <Grid item xs={9} align="center">
+            <SearchPage pushSearchResults={this.getSearchResults}/>
+          </Grid>
+          <Grid item xs={2} container direction="column" justifyContent="flex-start" alignItems="flex-end" spacing={2}>
+            <Grid item xs={12} align="right">
+              {this.state.isHost ? this.renderSettingsButton() : null}
+            </Grid>
+            <Grid item xs={12} align="right">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={this.leaveButtonPressed}
+              >
+                Leave Room
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
-      <Grid container justifyContent="center" spacing={2}>
-        <Grid item xs={12} align="center">
-          <SearchPage pushSearchResults={this.getSearchResults}/>
+        <Grid item container justifyContent="center" style={{
+          position: this.state.hasSearchResults ? 'absolute' : 'relative',
+          bottom: 0,
+        }}>
+          { (this.state.hasSearchResults) 
+            ? 
+              <Grid item xs={12} align="center">
+                <MusicPlayer {...this.state.song} smallCard={true} />
+              </Grid>
+            :
+              <Grid item xs={12} align="center">
+                <MusicPlayer {...this.state.song} smallCard={false} />
+              </Grid>
+          }
         </Grid>
-        { (!this.state.hasSearchResults) 
-          ? 
-            <Grid item xs={12} align="center">
-              <MusicPlayer {...this.state.song} smallCard={false} />
-            </Grid>
-          :
-            null
-        }
-        { (this.state.hasSearchResults) 
-          ? 
-            <Grid item xs={12} align="center">
-              <MusicPlayer {...this.state.song} smallCard={true} />
-            </Grid>
-          :
-            null
-        }
-      </Grid>
       </Grid>
     );
   }
