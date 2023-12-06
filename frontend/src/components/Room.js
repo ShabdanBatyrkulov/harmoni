@@ -15,6 +15,7 @@ export default class Room extends Component {
       hasSearchResults: false,
       spotifyAuthenticated: false,
       song: {},
+      next_song: {},
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
@@ -24,6 +25,7 @@ export default class Room extends Component {
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.authenticateSpotify = this.authenticateSpotify.bind(this);
     this.getCurrentSong = this.getCurrentSong.bind(this);
+    this.getNextSong = this.getNextSong.bind(this);
     this.getSearchResults = this.getSearchResults.bind(this);
     this.getRoomDetails();
   }
@@ -83,6 +85,21 @@ export default class Room extends Component {
       })
       .then((data) => {
         this.setState({ song: data });
+      });
+    this.getNextSong();
+  }
+
+  getNextSong() {
+    fetch("/spotify/user-queue")
+      .then((response) => {
+        if (!response.ok) {
+          return {};
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        this.setState({ next_song: data[0] });
       });
   }
 
@@ -187,11 +204,11 @@ export default class Room extends Component {
           { (this.state.hasSearchResults) 
             ? 
               <Grid item xs={12} align="center">
-                <MusicPlayer {...this.state.song} smallCard={true} />
+                <MusicPlayer song={this.state.song} next_song={this.state.next_song} smallCard={true} />
               </Grid>
             :
               <Grid item xs={12} align="center">
-                <MusicPlayer {...this.state.song} smallCard={false} />
+                <MusicPlayer song={this.state.song} next_song={this.state.next_song} smallCard={false} />
               </Grid>
           }
         </Grid>
