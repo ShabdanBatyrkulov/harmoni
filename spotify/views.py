@@ -123,7 +123,7 @@ class PlaySong(APIView):
 		room = Room.objects.filter(code=room_code)[0]
 		if self.request.session.session_key == room.host or room.guest_can_pause:
 			play_song(room.host)
-			return Response({}, status=status.HTTP.HTTP_204_NO_CONTENT)
+			return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 		return Response({}, status=status.HTTP_403_FORBIDDEN)
 
@@ -195,6 +195,4 @@ class AddUserQueue(APIView):
 		if response.data.get("uri") == None:
 			return Response({'Bad request': f'uri field was not found in the post method request.'}, status=status.HTTP_404_NOT_FOUND)
 
-		add_user_queue(room.host, response.data.get("uri"))
-
-		return Response({}, status=status.HTTP_204_NO_CONTENT)
+		return Response(add_user_queue(room.host, response.data.get("uri")), status=status.HTTP_204_NO_CONTENT)

@@ -56,18 +56,16 @@ def refresh_spotify_token(session_id):
 def get_auth_header(token):
 	return {"Content-Type": "application/json", "Authorization": "Bearer " + token}
 
-def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False, params={}):
+def execute_spotify_api_request(session_id, endpoint, add_query="", post_=False, put_=False, params={}):
 	tokens = get_user_tokens(session_id)
 	header = get_auth_header(tokens.access_token)
 
 	if post_:
-		post(BASE_URL + endpoint, headers=header, data=params)
+		response = post(BASE_URL + endpoint + add_query, headers=header)
 	elif put_:
-		put(BASE_URL + endpoint, headers=header)
+		response = put(BASE_URL + endpoint, headers=header)
 	else:
 		response = get(BASE_URL + endpoint, params, headers=header)
-
-	print(response)
 
 	try:
 		return response.json()
@@ -105,7 +103,7 @@ def search_song(session_id, song_name):
 	return execute_spotify_api_request(session_id, "search", params=params)
 
 def add_user_queue(session_id, uri):
-	return execute_spotify_api_request(session_id, "me/player/queue", post_=True, params={"uri": uri})
+	return execute_spotify_api_request(session_id, "me/player/queue", add_query="?uri=" + uri, post_=True, params={'uri': uri})
 
 def user_queue(session_id):
 	return execute_spotify_api_request(session_id, "me/player/queue")
