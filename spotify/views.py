@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .credentials import REDIRECT_URI, CLIENT_ID, CLIENT_SECRET
+from .credentials import REDIRECT_URI, CLIENT_ID
 from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
@@ -29,8 +29,7 @@ def spotify_callback(request, format=None):
 		'grant_type': 'authorization_code',
 		'code': code,
 		'redirect_uri': REDIRECT_URI,
-		'client_id': CLIENT_ID,
-		'client_secret': CLIENT_SECRET
+		'client_id': CLIENT_ID
 	}).json()
 
 	access_token = response.get('access_token')
