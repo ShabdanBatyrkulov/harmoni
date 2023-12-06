@@ -1,20 +1,15 @@
 # harmoni
 
-#### To update DB.
-```
-python3 ./manage.py makemigrations
-pyhton3 ./manage.py migrate
-```
-
-#### NPM Setup Commands
+### NPM Setup Commands
 Run in harmoni/frontend folder.
+
 ```npm i```
 
 if it causes error, just force install it by:
 
 ```npm i --force```
 
-#### To run webserver.
+### To run webserver.
 ```
 python ./manage.py runserver
 npm run dev
