@@ -26,3 +26,8 @@ html, body {
 	margin: 10px;
 	height: 90px;
 }
+.SongHover:hover {
+	border-color: #f1ff5c;
+	color: gray;
+	box-shadow: 0 0.5em 0.5em -0.4em;
+}
