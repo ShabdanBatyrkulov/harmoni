@@ -3,6 +3,7 @@ import {
     Grid,
     Typography,
     Card,
+    CardMedia,
 } from "@material-ui/core";
   
 
@@ -13,11 +14,11 @@ export default function makeSmallCard(song) {
         sec = "0" + sec.toString()
     }
     return (
-        <Card className="ExtraSmallSongCard">
-            <Grid container alignItems="center" spacing={2} >
+        <Grid item align="center" xs={8}>
+            <Grid container alignItems="center" spacing={1} >
                 {/* Column 1: Song Image */}
                 <Grid item align="center" >
-                    <img src={song.image_url} height="70px" width="70px" alt="Album Cover" />
+                    <img src={song.image_url} alt="Album Cover" />
                 </Grid>
                 {/* Column 2: Title and Artist Name */}
                 <Grid item align="left" xs={10}>
@@ -35,6 +36,6 @@ export default function makeSmallCard(song) {
                     </Typography> 
                 </Grid>
             </Grid>
-        </Card>
+        </Grid>
     );
 }

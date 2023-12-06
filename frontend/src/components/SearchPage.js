@@ -2,7 +2,10 @@ import { TimerSharp } from "@material-ui/icons";
 import React, { Component } from "react";
 import SearchBar from "./SearchBar"
 import makeSmallCard from "./SongCard"
-
+import {
+    Grid
+} from "@material-ui/core";
+  
 export default class SearchPage extends Component {
 	constructor(props) {
 		super(props);
@@ -26,18 +29,23 @@ export default class SearchPage extends Component {
 		const songs = [];
 		this.state.searchResults.forEach((item) => songs.push(makeSmallCard(item)))
 		return (
-			<div style={{'height': '450px', 'overflow-y': 'scroll'}}>
+			<Grid container align="center" spacing={1} style={{
+				'max-height': '400px',
+				'overflow-y': 'scroll',
+				'justify-content': 'space-evenly',
+				'align-content': "flex-start",
+			}}>
 				{songs}
-			</div>
+			</Grid>	
 		);
 	}
 
 	render() {
 		return (
-			<div>
+			<Grid container justifyContent="center" spacing={2}>
 				{<SearchBar pushSearchResults = {this.getSearchResults}/>}
 				{this.state.hasSearchResults ? this.renderResults() : null}
-			</div>
+			</Grid>
 		);
 	}
 }

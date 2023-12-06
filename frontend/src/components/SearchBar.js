@@ -42,27 +42,24 @@ export default class SearchBar extends Component {
 
   renderSearchBar() {
     return (
-      <Grid container justifyContent="center">
-        {/* Search Bar */}
-        <Grid item align="center">
-          <Input
-            placeholder="Search"
-            startAdornment={
-              <InputAdornment position="start">
-                <IconButton onClick={() => this.searchButtonPressed()}>
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
+      <Grid item align="center">
+        <Input
+          placeholder="Search"
+          startAdornment={
+            <InputAdornment position="start">
+              <IconButton onClick={() => this.searchButtonPressed()}>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          style={{ width: '80%', maxWidth: '1000px', fontSize: '25px' }}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              this.searchButtonPressed();
             }
-            style={{ width: '80%', maxWidth: '1000px', fontSize: '25px' }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                this.searchButtonPressed();
-              }
-            }}
-            onChange={this.handleTextFieldChange}
-          />
-        </Grid>
+          }}
+          onChange={this.handleTextFieldChange}
+        />
       </Grid>
     );
   }

@@ -94,11 +94,13 @@ export default class MusicPlayer extends Component {
     const songProgress = (this.props.time / this.props.duration) * 100;
   
     return (
-      <Card className="SmallSongCard">
+      <Card className="SmallSongCard" style={{
+        position: "relative"
+      }}>
         <Grid container alignItems="center" >
           {/* Column 1: Song Image */}
-          <Grid item align="center" xs={1} >
-            <img src={this.props.image_url} height="100%" width="100%" alt="Album Cover" />
+          <Grid item align="left" xs={1} >
+            <img src={this.props.image_url} height="80px" width="80px" alt="Album Cover" />
           </Grid>
           {/* Column 2: Title and Artist Name */}
           <Grid item align="center" xs={9}>
@@ -122,7 +124,12 @@ export default class MusicPlayer extends Component {
             </div>
           </Grid>
         </Grid>
-        <LinearProgress variant="determinate" value={songProgress} style={{ height: '3px' }} />
+        <LinearProgress variant="determinate" value={songProgress} style={{
+          height: '3px',
+          width: '100%',
+          position: 'absolute',
+          bottom: 0,
+        }} />
       </Card>
     );
   }
