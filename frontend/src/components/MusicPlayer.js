@@ -45,7 +45,7 @@ export default class MusicPlayer extends Component {
     return (
       <Card align="center">
         <Grid className="NoSongCard" container alignItems="center" justifyContent="center" xs={8}>
-          <Grid item align="center" xs="auto">
+          <Grid item align="center" xs="12">
             <Typography component="h5" variant="h5">
               No song in progress!
             </Typography>
@@ -65,8 +65,8 @@ export default class MusicPlayer extends Component {
     return (
       <Card className="BigSongCard">
         <Grid className="SongCard" container alignItems="center">
-          <Grid item align="center" xs={4}>
-            <img src={this.props.image_url} height="100%" width="100%" />
+          <Grid item align="center" xs={2}>
+            <img src={this.props.song.image_url} height="100%" width="100%" />
           </Grid>
           <Grid item align="center" xs={7}>
             <Typography component="h5" variant="h5">
