@@ -19,13 +19,6 @@ npm run dev
 [Django-rest-framework/api-guide/fields](https://www.django-rest-framework.org/api-guide/fields/#charfield)\
 [Spotify API tutorial](https://www.youtube.com/watch?v=WAmEZBEeNmg)
 
-### Create "credentials.py" file under spotify folder is set up to app's client id and secret.
-```
-CLIENT_ID = "97c1fd86051d4f8ca9ba31238423f6ab"
-CLIENT_SECRET = "be4e064a4f15424b8544243e6ec18888"
-REDIRECT_URI = "http://127.0.0.1:8000/spotify/redirect"
-```
-
 ### Spotify account can't be used in development mode.
 username: tagaevmanas26@gmail.com
 

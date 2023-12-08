@@ -30,7 +30,8 @@ def spotify_callback(request, format=None):
 		'grant_type': 'authorization_code',
 		'code': code,
 		'redirect_uri': REDIRECT_URI,
-		'client_id': CLIENT_ID
+		'client_id': CLIENT_ID,
+		'client_secret': CLIENT_SECRET
 	}).json()
 
 	access_token = response.get('access_token')
